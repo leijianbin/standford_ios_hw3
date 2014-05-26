@@ -31,7 +31,12 @@
 
 - (void)updateUI
 {
-    self.historyBody.text = self.history;
+    if (self.history) {
+        self.historyBody.text = self.history;
+    }
+    else {
+        [self.historyBody setAttributedText:self.sethistory];
+    }
 }
 
 @end

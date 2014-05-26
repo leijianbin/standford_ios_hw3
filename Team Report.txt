@@ -1,12 +1,11 @@
-Project: Homework 2
+Project: Homework 3
 Team member: Jianbin Lei, Junchao Dong
-Time spent: 4 hours work together + 2 hour separately(Lei)  
+Time spent: 6 hours work together + 2 hour separately(Lei)  
 
 Comment:(Work specialization and most difficult problem) 
 1. Jianbin Lei code almost all the codes;
-2. Junchao understand the 2 cards model part, switch to 3 cards model and restart and score part. 
-3. But Junchao don¡¯t participate the show current history part. 
-4. Junchao don¡¯t finish searching a background image task in time. 
+2. Junchao understand the setCard Game;
+3. Junchao participate the score history part, but not finish. 
 
 Suggest Grade: 
 Jianbin: 100%
@@ -17,4 +16,4 @@ Jianbin Lei
 sign your name
 
 Date:
-April 27, 2014
+May 11, 2014

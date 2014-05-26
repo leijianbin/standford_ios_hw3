@@ -10,6 +10,7 @@
 #import "SetGameCard.h"
 #import "SetGameCardDeck.h"
 #import "SetGameCardGame.h"
+#import "HistroyViewController.h"
 
 @interface SetGameMatchCardViewController()
 
@@ -21,9 +22,34 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *setGameScore;
 
+@property (weak, nonatomic) IBOutlet UILabel *setGameResultLable;
+
+@property (strong,nonatomic) NSAttributedString *setGameCurrentResult;
+@property (nonatomic) NSMutableAttributedString *history;
 @end
 
 @implementation SetGameMatchCardViewController
+
+
+- (NSMutableAttributedString *)history
+{
+    if (!_history) {
+        _history = [[NSMutableAttributedString alloc] init];
+    }
+    return _history;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"setGameHis"]) {
+        if ([segue.destinationViewController isKindOfClass:[HistroyViewController class]]) {
+            HistroyViewController *tsvs = (HistroyViewController*)segue.destinationViewController;
+            tsvs.sethistory = self.history;
+        }
+    }
+    
+}
+
 
 - (SetGameCardGame *)game
 {
@@ -72,6 +98,9 @@
         }
         cardButton.enabled = !card.isMatched;
     }
+    //NSLog(@"setGameResultLable: %@", self.setGameResultLable);
+    //NSLog(@"GameResult: %@", self.setGameCurrentResult);
+    [self.setGameResultLable setAttributedText:self.setGameCurrentResult];
     self.setGameScore.text = [NSString stringWithFormat:@"Score: %d",self.game.score];
 }
 - (IBAction)refreshCard {
@@ -81,9 +110,11 @@
 
 - (IBAction)touchCard:(UIButton *)sender {
 
-    //[sender setAttributedTitle:[self.card getSetCardContent] forState:UIControlStateNormal];
     int chosenButtonIndex = [self.cardButtons indexOfObject:sender];
-    [self.game chooseCardAtIndex:chosenButtonIndex];
+    self.setGameCurrentResult = [self.game chooseCardAtIndex:chosenButtonIndex];
+    NSAttributedString *space = [[NSAttributedString alloc] initWithString:@"\n"];
+    [self.history appendAttributedString: self.setGameCurrentResult];
+    [self.history appendAttributedString: space];
     [self upDateUI];
 }
 

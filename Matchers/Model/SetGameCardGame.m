@@ -14,7 +14,7 @@
 @property (nonatomic,readwrite) NSInteger score;
 @property (nonatomic,strong) NSMutableArray *cards;
 @property (nonatomic,strong) NSMutableArray *choseCards; //of Cards
-@property (nonatomic) NSAttributedString *currentResult;
+@property (nonatomic) NSMutableAttributedString *currentResult;
 
 @end
 
@@ -59,22 +59,24 @@
     return (index < [self.cards count])? self.cards[index]:nil; //better
 }
 
-- (NSString *)chooseCardAtIndex:(NSUInteger)index
+- (NSAttributedString *)chooseCardAtIndex:(NSUInteger)index
 {
     SetGameCard *card = [self cardAtIndex:index];
     if (!card.isMatched) {
         if (card.isChosen) {
             card.chosen = NO;
             [self.choseCards removeObject:card];
-            self.currentResult = [card getSetCardContent];//conment???
+            self.currentResult = [[NSMutableAttributedString alloc] initWithAttributedString:[card getSetCardContent]];
+            NSAttributedString *otherContent = [[NSAttributedString alloc] initWithString:@" is not chosen"];
+            [self.currentResult appendAttributedString:otherContent];
             
         } else {
             card.chosen = YES;
             if([self.choseCards count] == 2)
             {
                 int matchScore = [card match:self.choseCards];
-                Card* element_0 = self.choseCards[0];
-                Card* element_1 = self.choseCards[1];
+                SetGameCard* element_0 = self.choseCards[0];
+                SetGameCard* element_1 = self.choseCards[1];
                 
                 if (matchScore) {
                     //if match
@@ -86,6 +88,15 @@
                     [self.choseCards removeAllObjects];
                     self.score += 4;
                     
+                    NSAttributedString *space = [[NSAttributedString alloc] initWithString:@" "];
+                    self.currentResult = [[NSMutableAttributedString alloc] initWithAttributedString:[card getSetCardContent]];
+                    [self.currentResult appendAttributedString:space];
+                    [self.currentResult appendAttributedString:[[NSMutableAttributedString alloc] initWithAttributedString:[element_0 getSetCardContent]]];
+                    [self.currentResult appendAttributedString:space];
+                    [self.currentResult appendAttributedString:[[NSMutableAttributedString alloc] initWithAttributedString:[element_1 getSetCardContent]]];
+                    
+                    NSAttributedString *otherContent = [[NSAttributedString alloc] initWithString:@" is matched! Score: +4!"];
+                    [self.currentResult appendAttributedString:otherContent];
                 } else {
                     //if not match ...
                     card.chosen = NO;
@@ -93,9 +104,22 @@
                     element_1.chosen = NO;
                     [self.choseCards removeAllObjects];
                     self.score -= 1;
+                    
+                    NSAttributedString *space = [[NSAttributedString alloc] initWithString:@" "];
+                    self.currentResult = [[NSMutableAttributedString alloc] initWithAttributedString:[card getSetCardContent]];
+                    [self.currentResult appendAttributedString:space];
+                    [self.currentResult appendAttributedString:[[NSMutableAttributedString alloc] initWithAttributedString:[element_0 getSetCardContent]]];
+                    [self.currentResult appendAttributedString:space];
+                    [self.currentResult appendAttributedString:[[NSMutableAttributedString alloc] initWithAttributedString:[element_1 getSetCardContent]]];
+                    
+                    NSAttributedString *otherContent = [[NSAttributedString alloc] initWithString:@" is not matched! Score: -1!"];
+                    [self.currentResult appendAttributedString:otherContent];
                 }
             } else {
                 [self.choseCards addObject:card];
+                self.currentResult = [[NSMutableAttributedString alloc] initWithAttributedString:[card getSetCardContent]];
+                NSAttributedString *otherContent = [[NSAttributedString alloc] initWithString:@" is chosen"];
+                [self.currentResult appendAttributedString:otherContent];
             }
         }
     }

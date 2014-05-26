@@ -11,5 +11,6 @@
 @interface HistroyViewController : UIViewController
 
 @property (strong,nonatomic) NSMutableString *history;
+@property (strong,nonatomic) NSMutableAttributedString *sethistory;
 
 @end

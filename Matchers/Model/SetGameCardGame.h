@@ -14,7 +14,7 @@
 
 - (instancetype)initWithCardCount: (NSUInteger)count
                         usingDeck:(Deck *)deck;
-- (NSString *)chooseCardAtIndex:(NSUInteger)index;
+- (NSAttributedString *)chooseCardAtIndex:(NSUInteger)index;
 - (SetGameCard *)cardAtIndex:(NSUInteger)index;
 
 @property (nonatomic,readonly) NSInteger score;

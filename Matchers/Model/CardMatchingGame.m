@@ -144,7 +144,7 @@ static const int COST_TO_CHOOSE = 1;
                 }
                 self.score -= COST_TO_CHOOSE;
                 if (![self.currentResult length]) {
-                    self.currentResult = [NSString stringWithFormat:@"%@",card.contents];
+                    self.currentResult = [NSString stringWithFormat:@"%@ is chosen",card.contents];
                 }
                 card.chosen = YES;
             }
